@@ -5,6 +5,7 @@ IMAGE := $(OUTPUT_DIR)/genius.elf
 ROOT = ./..
 INCLUDE_DIRS += -I$(ROOT)/include \
 				-I$(ROOT)/include/CMSIS
+
 CC = arm-none-eabi-gcc
 LD = arm-none-eabi-gcc
 SIZE = arm-none-eabi-size
@@ -28,11 +29,10 @@ LDFLAGS += -specs=nano.specs -specs=nosys.specs # -specs=rdimon.specs
 #
 # Kernel build.
 #
-KERNEL_DIR = $(ROOT)/kernel/Source
-KERNEL_PORT_DIR += $(KERNEL_DIR)/portable/GCC/ARM_CM3
+KERNEL_DIR = $(ROOT)/kernel/source
 INCLUDE_DIRS += -I$(KERNEL_DIR)/include \
-				-I$(KERNEL_PORT_DIR)
-VPATH += $(KERNEL_DIR) $(KERNEL_PORT_DIR) $(KERNEL_DIR)/portable/MemMang
+				-I$(KERNEL_DIR)/portable/GCC/ARM_CM3
+VPATH += $(KERNEL_DIR) $(KERNEL_DIR)/portable/MemMang $(KERNEL_DIR)/portable/GCC/ARM_CM3
 SOURCE_FILES += $(KERNEL_DIR)/tasks.c
 SOURCE_FILES += $(KERNEL_DIR)/list.c
 SOURCE_FILES += $(KERNEL_DIR)/queue.c
@@ -45,11 +45,50 @@ SOURCE_FILES += $(KERNEL_DIR)/portable/GCC/ARM_CM3/port.c
 #
 # Setup build.
 #
-SETUP_DIR = $(ROOT)/kernel/Setup
+SETUP_DIR = $(ROOT)/kernel/setup
 VPATH += $(SETUP_DIR)
 SOURCE_FILES += $(SETUP_DIR)/startup_gcc.c
 SOURCE_FILES += $(SETUP_DIR)/printf-stdarg.c
 SOURCE_FILES += $(SETUP_DIR)/RegTest.c
+
+# Percepio TraceRecorder (FreeRTOS-Plus-Trace)
+TRACERECORDER_DIR = $(ROOT)/kernel/trace
+TRACERECORDER_CFG_DIR = $(ROOT)/include/TraceRecorderConfig
+VPATH += $(TRACERECORDER_DIR)
+VPATH += $(TRACERECORDER_DIR)/kernelports/FreeRTOS
+VPATH += $(TRACERECORDER_DIR)/streamports/RingBuffer
+INCLUDE_DIRS += -I$(TRACERECORDER_CFG_DIR)
+INCLUDE_DIRS += -I$(TRACERECORDER_DIR)/include 
+INCLUDE_DIRS += -I$(TRACERECORDER_DIR)/kernelports/FreeRTOS/include
+INCLUDE_DIRS += -I$(TRACERECORDER_DIR)/streamports/RingBuffer/include
+SOURCE_FILES +=	(TRACERECORDER_DIR)/kernelports/FreeRTOS/trcKernelPort.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/streamports/RingBuffer/trcStreamPort.c
+SOURCE_FILES += (TRACERECORDER_DIR)/trcAssert.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcCounter.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcDependency.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcDiagnostics.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcEntryTable.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcError.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcEvent.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcEventBuffer.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcExtension.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcHardwarePort.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcHeap.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcInternalEventBuffer.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcInterval.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcISR.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcMultiCoreEventBuffer.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcObject.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcPrint.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcRunnable.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcSnapshotRecorder.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcStackMonitor.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcStateMachine.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcStaticBuffer.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcStreamingRecorder.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcString.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTask.c
+SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTimestamp.c
 
 #
 # Application entry point.  main_blinky is self contained.  main_full builds

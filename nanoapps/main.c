@@ -53,7 +53,7 @@
 /* Standard includes. */
 #include <stdio.h>
 #include <string.h>
-
+#include <trcRecorder.h>
 /* TODO: Steps for adding TraceRecorder are tagged with comments like this. */
 /* TODO: This way, Eclipse IDEs can provide a summary in the Tasks window. */
 /* TODO: To open Tasks, select Window -> Show View -> Tasks (or Other) */
@@ -92,34 +92,38 @@ void vFullDemoIdleFunction( void );
 static void prvUARTInit( void );
 
 /*-----------------------------------------------------------*/
+int count = 0;
 void vPeriodicTask(void *pvParameters)
 {
     TickType_t xLastWakeTime;
-    int count = 0;
 
     (void)pvParameters;
     xLastWakeTime = xTaskGetTickCount();
-    for (;;)
-    {
-        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(200));
-        printf("%s call %d \n", __func__, count++);
+    for (;;) {
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(20));
+        printf("%s call %d \n", pcTaskGetName(NULL), count++);
     }
 }
 
 void main(void)
 {
-    TaskHandle_t xPeriodicTaskHandle = NULL;
+	char name[12] = {0};
+    xTraceInitialize();
+	xTraceEnable(TRC_START);
+	xTraceTimestampSetPeriod(configCPU_CLOCK_HZ/configTICK_RATE_HZ);
+
     prvUARTInit();
-
-    xTaskCreate(
-        vPeriodicTask,
-        "Periodic",
-        configMINIMAL_STACK_SIZE,
-        NULL,
-        1,
-        &xPeriodicTaskHandle
-    );
-
+    for (int i = 0; i < 3; i++) {
+        snprintf(name, sizeof(name),"%s%d","Periodic_",i);
+        xTaskCreate(
+            vPeriodicTask,
+            name,
+            configMINIMAL_STACK_SIZE,
+            NULL,
+            1,
+            NULL
+        );
+    }
     vTaskStartScheduler();
 
     for (;;);
@@ -206,6 +210,8 @@ void vApplicationDaemonTaskStartupHook( void )
      * execute (sometimes called the timer task).  This is useful if the
      * application includes initialisation code that would benefit from executing
      * after the scheduler has been started. */
+
+    xTraceEnable(TRC_START);
 }
 /*-----------------------------------------------------------*/
 
