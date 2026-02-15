@@ -1,3 +1,4 @@
+include ./config.mk
 OUTPUT_DIR := ../output
 IMAGE := $(OUTPUT_DIR)/genius.elf
 
@@ -104,8 +105,12 @@ SOURCE_FILES += (UTILS_DIR)/uart.c
 # the above common demo (and test) files too.
 #
 APP_DIR = $(ROOT)/nanoapps
-VPATH += $(APP_DIR)
-SOURCE_FILES += (APP_DIR)/main.c
+VPATH += $(APP_DIR) 
+
+ifeq ($(config_hello_world),yes)
+VPATH += $(APP_DIR)/hello_world
+SOURCE_FILES += (APP_DIR)/hello_world/main.c
+endif
 
 #Create a list of object files with the desired output directory path.
 OBJS = $(SOURCE_FILES:%.c=%.o)
