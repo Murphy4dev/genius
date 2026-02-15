@@ -4,8 +4,9 @@ IMAGE := $(OUTPUT_DIR)/genius.elf
 # The directory that contains the /source and /demo sub directories.
 ROOT = ./..
 INCLUDE_DIRS += -I$(ROOT)/include \
-				-I$(ROOT)/include/CMSIS
-
+				-I$(ROOT)/include/CMSIS \
+				-I$(ROOT)/include/utils
+				
 CC = arm-none-eabi-gcc
 LD = arm-none-eabi-gcc
 SIZE = arm-none-eabi-size
@@ -89,6 +90,14 @@ SOURCE_FILES +=	(TRACERECORDER_DIR)/trcStreamingRecorder.c
 SOURCE_FILES +=	(TRACERECORDER_DIR)/trcString.c
 SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTask.c
 SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTimestamp.c
+
+#
+# utils entry point.
+#
+UTILS_DIR = $(ROOT)/utils
+VPATH += $(UTILS_DIR)
+SOURCE_FILES += (UTILS_DIR)/hook.c
+SOURCE_FILES += (UTILS_DIR)/uart.c
 
 #
 # Application entry point.  main_blinky is self contained.  main_full builds
