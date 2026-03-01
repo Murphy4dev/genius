@@ -1,12 +1,8 @@
 include ./config.mk
-OUTPUT_DIR := ../output
-IMAGE := $(OUTPUT_DIR)/genius.elf
-
-# The directory that contains the /source and /demo sub directories.
 ROOT = ./..
-INCLUDE_DIRS += -I$(ROOT)/include \
-				-I$(ROOT)/include/CMSIS \
-				-I$(ROOT)/include/utils
+VPATH += $(ROOT)
+OUTPUT_DIR := $(ROOT)/output
+IMAGE := $(OUTPUT_DIR)/genius.elf
 				
 CC = arm-none-eabi-gcc
 LD = arm-none-eabi-gcc
@@ -29,33 +25,26 @@ LDFLAGS += -nostartfiles
 LDFLAGS += -specs=nano.specs -specs=nosys.specs # -specs=rdimon.specs
 
 #
-# Kernel build.
+# rtos Kernel build.
 #
-KERNEL_DIR = $(ROOT)/kernel/source
-INCLUDE_DIRS += -I$(KERNEL_DIR)/include \
-				-I$(KERNEL_DIR)/portable/GCC/ARM_CM3
-VPATH += $(KERNEL_DIR) $(KERNEL_DIR)/portable/MemMang $(KERNEL_DIR)/portable/GCC/ARM_CM3
-SOURCE_FILES += $(KERNEL_DIR)/tasks.c
-SOURCE_FILES += $(KERNEL_DIR)/list.c
-SOURCE_FILES += $(KERNEL_DIR)/queue.c
-SOURCE_FILES += $(KERNEL_DIR)/timers.c
-SOURCE_FILES += $(KERNEL_DIR)/event_groups.c
-SOURCE_FILES += $(KERNEL_DIR)/stream_buffer.c
-SOURCE_FILES += $(KERNEL_DIR)/portable/MemMang/heap_4.c
-SOURCE_FILES += $(KERNEL_DIR)/portable/GCC/ARM_CM3/port.c
-
-#
-# Setup build.
-#
-SETUP_DIR = $(ROOT)/kernel/setup
-VPATH += $(SETUP_DIR)
-SOURCE_FILES += $(SETUP_DIR)/startup_gcc.c
-SOURCE_FILES += $(SETUP_DIR)/printf-stdarg.c
-SOURCE_FILES += $(SETUP_DIR)/RegTest.c
+INCLUDE_DIRS += -I$(ROOT)/kernel/include \
+				-I$(ROOT)/kernel/include/CMSIS
+RTOS_DIR = $(ROOT)/kernel/source
+INCLUDE_DIRS += -I$(RTOS_DIR)/include \
+				-I$(RTOS_DIR)/portable/GCC/ARM_CM3
+VPATH += $(RTOS_DIR) $(RTOS_DIR)/portable/MemMang $(RTOS_DIR)/portable/GCC/ARM_CM3
+SOURCE_FILES += $(RTOS_DIR)/tasks.c
+SOURCE_FILES += $(RTOS_DIR)/list.c
+SOURCE_FILES += $(RTOS_DIR)/queue.c
+SOURCE_FILES += $(RTOS_DIR)/timers.c
+SOURCE_FILES += $(RTOS_DIR)/event_groups.c
+SOURCE_FILES += $(RTOS_DIR)/stream_buffer.c
+SOURCE_FILES += $(RTOS_DIR)/portable/MemMang/heap_4.c
+SOURCE_FILES += $(RTOS_DIR)/portable/GCC/ARM_CM3/port.c
 
 # Percepio TraceRecorder (FreeRTOS-Plus-Trace)
 TRACERECORDER_DIR = $(ROOT)/kernel/trace
-TRACERECORDER_CFG_DIR = $(ROOT)/include/TraceRecorderConfig
+TRACERECORDER_CFG_DIR = $(ROOT)/kernel/include/TraceRecorderConfig
 VPATH += $(TRACERECORDER_DIR)
 VPATH += $(TRACERECORDER_DIR)/kernelports/FreeRTOS
 VPATH += $(TRACERECORDER_DIR)/streamports/RingBuffer
@@ -93,19 +82,22 @@ SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTask.c
 SOURCE_FILES +=	(TRACERECORDER_DIR)/trcTimestamp.c
 
 #
-# utils entry point.
+# platform build.
 #
-UTILS_DIR = $(ROOT)/utils
-VPATH += $(UTILS_DIR)
-SOURCE_FILES += (UTILS_DIR)/hook.c
-SOURCE_FILES += (UTILS_DIR)/uart.c
-
+INCLUDE_DIRS += -I$(ROOT)/platform/include
+PLATFORM_DIR = $(ROOT)/platform/CM3
+VPATH += $(PLATFORM_DIR) $(PLATFORM_DIR)/driver $(PLATFORM_DIR)/cpu/
+SOURCE_FILES += $(PLATFORM_DIR)/startup_gcc.c
+SOURCE_FILES += $(PLATFORM_DIR)/driver/uart.c
+SOURCE_FILES += $(PLATFORM_DIR)/driver/printf-stdarg.c
+SOURCE_FILES += $(PLATFORM_DIR)/cpu/RegTest.c
 #
 # Application entry point.  main_blinky is self contained.  main_full builds
 # the above common demo (and test) files too.
 #
-APP_DIR = $(ROOT)/nanoapps
-VPATH += $(APP_DIR) 
+APP_DIR = $(ROOT)/application
+VPATH += $(APP_DIR) $(APP_DIR)/hook_world
+SOURCE_FILES += (APP_DIR)/hook_world/hook.c
 
 ifeq ($(config_hello_world),yes)
 VPATH += $(APP_DIR)/hello_world

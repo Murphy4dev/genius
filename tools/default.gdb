@@ -9,6 +9,7 @@ end
 
 catch signal SIGINT
 commands
+    dump binary value trace.bin *RecorderDataPtr
     bt
     print/x $r0
 end

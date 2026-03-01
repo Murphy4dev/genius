@@ -1,9 +1,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
-#include "uart.h"
 #include <stdio.h>
 #include <string.h>
-#include <trcRecorder.h>
 
 void vHelloworldTask(void *pvParameters)
 {
@@ -19,12 +17,6 @@ void vHelloworldTask(void *pvParameters)
 
 void main(void)
 {
-    xTraceInitialize();
-	xTraceEnable(TRC_START);
-	xTraceTimestampSetPeriod(configCPU_CLOCK_HZ/configTICK_RATE_HZ);
-
-    prvUARTInit();
-
     xTaskCreate(
         vHelloworldTask,
         "hello_world",

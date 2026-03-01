@@ -26,6 +26,8 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <trcRecorder.h>
+#include "uart.h"
 
 /* FreeRTOS interrupt handlers. */
 extern void vPortSVCHandler( void );
@@ -75,8 +77,22 @@ const uint32_t* isr_vector[] __attribute__((section(".isr_vector"), used)) =
     0, // Ethernet   13
 };
 
+static void trace_init(void)
+{
+    xTraceInitialize();
+	xTraceEnable(TRC_START);
+	xTraceTimestampSetPeriod(configCPU_CLOCK_HZ/configTICK_RATE_HZ);
+}
+
+static void platform_init(void)
+{
+    trace_init();
+    prvUARTInit();
+}
+
 void Reset_Handler( void )
 {
+    platform_init();
     main();
 }
 
