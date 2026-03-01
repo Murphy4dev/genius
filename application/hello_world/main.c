@@ -13,6 +13,7 @@ void vHelloworldTask(void *pvParameters)
         vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(500));
         printf("%s: welcome to freertos !!! \n", pcTaskGetName(NULL));
     }
+    vTaskDelete(NULL);
 }
 
 void main(void)
@@ -25,9 +26,4 @@ void main(void)
         1,
         NULL
     );
-
-    vTaskStartScheduler();
-    for (;;) {
-        // will never reach heer normally
-    }
 }

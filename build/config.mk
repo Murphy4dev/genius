@@ -1,1 +1,2 @@
-config_hello_world = yes
+config_hello_world = no
+config_list_world = yes

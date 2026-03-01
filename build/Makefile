@@ -104,6 +104,11 @@ VPATH += $(APP_DIR)/hello_world
 SOURCE_FILES += (APP_DIR)/hello_world/main.c
 endif
 
+ifeq ($(config_list_world),yes)
+VPATH += $(APP_DIR)/list_world
+SOURCE_FILES += (APP_DIR)/list_world/main.c
+endif
+
 #Create a list of object files with the desired output directory path.
 OBJS = $(SOURCE_FILES:%.c=%.o)
 OBJS_NO_PATH = $(notdir $(OBJS))
