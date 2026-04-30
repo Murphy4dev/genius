@@ -6,4 +6,5 @@
 void main(void)
 {
     int count = 0;
+    printf("running \n");
 }
