@@ -31,8 +31,8 @@ void vTask1(void *pvParameters)
 {
     (void)pvParameters;
     for (;;) {
-        vDoSomething(500000000);
         vFunction();
+        vDoSomething(500000000);
     }
 }
 
@@ -40,8 +40,8 @@ void vTask2(void *pvParameters)
 {
     (void)pvParameters;
     for (;;) {
-        vDoSomething(500000000);
         vFunction();
+        vDoSomething(500000000);
     }
 }
 
@@ -49,6 +49,6 @@ void main(void)
 {
     xTaskCreate(vTask1, "vTask1", configMINIMAL_STACK_SIZE, "vTask1",
                 configMAX_PRIORITIES - 1, &pxTask1Handle);
-    xTaskCreate(vTask2, "vTask2", configMINIMAL_STACK_SIZE, "vTask1",
+    xTaskCreate(vTask2, "vTask2", configMINIMAL_STACK_SIZE, "vTask2",
                 configMAX_PRIORITIES - 1, &pxTask2Handle);
 }
