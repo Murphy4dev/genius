@@ -58,8 +58,8 @@ Reset_Handler (platform/CM3/startup_gcc.c)
 Edit `build/config.mk` to choose which application to build:
 
 ```makefile
-config_hello_world = no    # Sets no (not built)
-config_list_world = yes    # Sets yes (currently active)
+CONFIG_HELLO_WORLD = no    # Sets no (not built)
+CONFIG_LIST_WORLD = yes    # Sets yes (currently active)
 ```
 
 - **hello_world**: Creates a task that prints a welcome message every 500ms

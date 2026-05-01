@@ -95,20 +95,7 @@ SOURCE_FILES += $(PLATFORM_DIR)/cpu/RegTest.c
 # Application entry point.  main_blinky is self contained.  main_full builds
 # the above common demo (and test) files too.
 #
-APP_DIR = $(ROOT)/application
-VPATH += $(APP_DIR) $(APP_DIR)/hook_world
-SOURCE_FILES += (APP_DIR)/hook_world/hook.c
-
-ifeq ($(config_hello_world),yes)
-VPATH += $(APP_DIR)/hello_world
-SOURCE_FILES += (APP_DIR)/hello_world/main.c
-endif
-
-ifeq ($(config_list_world),yes)
-VPATH += $(APP_DIR)/list_world
-SOURCE_FILES += (APP_DIR)/list_world/main.c
-endif
-
+include ../application/app.mk
 #Create a list of object files with the desired output directory path.
 OBJS = $(SOURCE_FILES:%.c=%.o)
 OBJS_NO_PATH = $(notdir $(OBJS))

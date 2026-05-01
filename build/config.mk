@@ -1,2 +1,3 @@
-config_hello_world = no
-config_list_world = yes
+CONFIG_HELLO_WORLD = no
+CONFIG_TIME_SLICING_WORLD = yes
+CONFIG_TASK_STATISTICS = yes
