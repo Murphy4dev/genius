@@ -22,6 +22,11 @@ VPATH += $(APP_DIR)/task_schedule_world
 SOURCE_FILES += (APP_DIR)/task_schedule_world/main.c
 endif
 
+ifeq ($(CONFIG_TASK_STACK_WORLD),yes)
+VPATH += $(APP_DIR)/task_stack_world
+SOURCE_FILES += (APP_DIR)/task_stack_world/main.c
+endif
+
 ifeq ($(CONFIG_TASK_STATISTICS),yes)
 CFLAGS += -DCONFIG_TASK_STATISTICS
 VPATH += $(APP_DIR)/task_statistics
