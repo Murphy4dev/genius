@@ -7,9 +7,19 @@ VPATH += $(APP_DIR)/hello_world
 SOURCE_FILES += (APP_DIR)/hello_world/main.c
 endif
 
-ifeq ($(CONFIG_TIME_SLICING_WORLD),yes)
-VPATH += $(APP_DIR)/time_slicing_world
-SOURCE_FILES += (APP_DIR)/time_slicing_world/main.c
+ifeq ($(CONFIG_TASK_WORLD),yes)
+VPATH += $(APP_DIR)/task_world
+SOURCE_FILES += (APP_DIR)/task_world/main.c
+endif
+
+ifeq ($(CONFIG_TASK_PRIORITY_WORLD),yes)
+VPATH += $(APP_DIR)/task_priority_world
+SOURCE_FILES += (APP_DIR)/task_priority_world/main.c
+endif
+
+ifeq ($(CONFIG_TASK_SCHEDULE_WORLD),yes)
+VPATH += $(APP_DIR)/task_schedule_world
+SOURCE_FILES += (APP_DIR)/task_schedule_world/main.c
 endif
 
 ifeq ($(CONFIG_TASK_STATISTICS),yes)
