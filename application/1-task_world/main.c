@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static TaskHandle_t *pxTaskHandle = NULL;
+static TaskHandle_t pxTaskHandle;
 
 static void vDoSomething(uint32_t ulCount)
 {
@@ -24,5 +24,6 @@ void vHelloWorldTask(void *pvParameters)
 void main(void)
 {
     xTaskCreate(vHelloWorldTask, "helloWorld", configMINIMAL_STACK_SIZE,
-                "helloWorld", configMAX_PRIORITIES - 1, pxTaskHandle);
+                "pvParameters-helloWorld", configMAX_PRIORITIES - 1,
+                &pxTaskHandle);
 }

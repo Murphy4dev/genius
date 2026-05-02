@@ -12,6 +12,11 @@ VPATH += $(APP_DIR)/1-task_world
 SOURCE_FILES += $(APP_DIR)/1-task_world/main.c
 endif
 
+ifeq ($(CONFIG_TASK_TCB_WORLD),yes)
+VPATH += $(APP_DIR)/2-task_tcb_world
+SOURCE_FILES += $(APP_DIR)/2-task_tcb_world/main.c
+endif
+
 ifeq ($(CONFIG_TASK_PRIORITY_WORLD),yes)
 VPATH += $(APP_DIR)/3-task_priority_world
 SOURCE_FILES += $(APP_DIR)/3-task_priority_world/main.c
