@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
+// configUSE_PREEMPTION 1
+// configUSE_TIME_SLICING 1
+
 static void do_something(uint32_t ulCount)
 {
     for (uint32_t i = 0; i < ulCount; i++) {
@@ -42,7 +45,7 @@ void vTask3(void *pvParameters)
 
 void main(void)
 {
-    xTaskCreate(vTask1, "vTask1", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(vTask2, "vTask2", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(vTask1, "vTask1", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+    xTaskCreate(vTask2, "vTask2", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
     xTaskCreate(vTask3, "vTask3", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 }

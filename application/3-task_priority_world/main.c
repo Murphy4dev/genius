@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// configUSE_PREEMPTION 1
-// configUSE_TIME_SLICING 1
-
 static TaskHandle_t pxTask1Handle;
 static TaskHandle_t pxTask2Handle;
 

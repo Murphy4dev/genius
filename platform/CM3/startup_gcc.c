@@ -96,7 +96,8 @@ static void system_task_init(void)
 {
 #ifdef CONFIG_TASK_STATISTICS
     extern void vTopTask(void *pvParameters);
-    xTaskCreate(vTopTask, "top", configMINIMAL_STACK_SIZE * 3, NULL, 2, NULL);
+    xTaskCreate(vTopTask, "top", configMINIMAL_STACK_SIZE * 3, NULL,
+                configMAX_PRIORITIES - 1, NULL);
 #endif
 }
 
