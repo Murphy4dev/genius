@@ -37,6 +37,9 @@ extern void vPortSVCHandler(void);
 extern void xPortPendSVHandler(void);
 extern void xPortSysTickHandler(void);
 
+/* Application interrupt handlers. */
+extern void TIMER0_Handler(void);
+
 /* Exception handlers. */
 static void HardFault_Handler(void) __attribute__((naked));
 static void Default_Handler(void) __attribute__((naked));
@@ -71,7 +74,7 @@ const uint32_t *isr_vector[] __attribute__((section(".isr_vector"), used)) = {
     0,
     0,
     0,
-    0, // Timer 0
+    (uint32_t *)&TIMER0_Handler, // Timer 0
     0, // Timer 1
     0,
     0,

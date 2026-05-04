@@ -40,6 +40,11 @@ VPATH += $(APP_DIR)/task_state_blocked_event_world
 SOURCE_FILES += $(APP_DIR)/task_state_blocked_event_world/main.c
 endif
 
+ifeq ($(CONFIG_ISR_WORLD),yes)
+VPATH += $(APP_DIR)/isr_world
+SOURCE_FILES += $(APP_DIR)/isr_world/main.c
+endif
+
 ifeq ($(CONFIG_TASK_STATISTICS),yes)
 CFLAGS += -DCONFIG_TASK_STATISTICS
 VPATH += $(APP_DIR)/task_statistics
