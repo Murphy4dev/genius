@@ -2,6 +2,9 @@ APP_DIR = $(ROOT)/application
 VPATH += $(APP_DIR) $(APP_DIR)/hook_world
 SOURCE_FILES += $(APP_DIR)/hook_world/hook.c
 
+VPATH += $(APP_DIR)/include
+INCLUDE_DIRS += -I$(ROOT)/application/include
+
 ifeq ($(CONFIG_HELLO_WORLD),yes)
 VPATH += $(APP_DIR)/0-hello_world
 SOURCE_FILES += $(APP_DIR)/0-hello_world/main.c
@@ -30,6 +33,11 @@ endif
 ifeq ($(CONFIG_TASK_STACK_WORLD),yes)
 VPATH += $(APP_DIR)/5-task_stack_world
 SOURCE_FILES += $(APP_DIR)/5-task_stack_world/main.c
+endif
+
+ifeq ($(CONFIG_TASK_STATE_BLOCKED_EVENT_WORLD),yes)
+VPATH += $(APP_DIR)/task_state_blocked_event_world
+SOURCE_FILES += $(APP_DIR)/task_state_blocked_event_world/main.c
 endif
 
 ifeq ($(CONFIG_TASK_STATISTICS),yes)
