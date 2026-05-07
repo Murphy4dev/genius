@@ -1,6 +1,7 @@
 APP_DIR = $(ROOT)/application
-VPATH += $(APP_DIR) $(APP_DIR)/hook_world
-SOURCE_FILES += $(APP_DIR)/hook_world/hook.c
+VPATH += $(APP_DIR) $(APP_DIR)/utils
+SOURCE_FILES += $(APP_DIR)/utils/hook.c
+SOURCE_FILES += $(APP_DIR)/utils/genius_log.c
 
 VPATH += $(APP_DIR)/include
 INCLUDE_DIRS += -I$(ROOT)/application/include
@@ -43,6 +44,7 @@ endif
 ifeq ($(CONFIG_ISR_WORLD),yes)
 VPATH += $(APP_DIR)/isr_world
 SOURCE_FILES += $(APP_DIR)/isr_world/main.c
+CFLAGS += -DCONFIG_ISR_WORLD
 endif
 
 ifeq ($(CONFIG_TASK_STATISTICS),yes)

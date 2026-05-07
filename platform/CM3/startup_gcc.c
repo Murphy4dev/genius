@@ -31,6 +31,7 @@
 #include "uart.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "genius_log.h"
 
 /* FreeRTOS interrupt handlers. */
 extern void vPortSVCHandler(void);
@@ -38,7 +39,9 @@ extern void xPortPendSVHandler(void);
 extern void xPortSysTickHandler(void);
 
 /* Application interrupt handlers. */
+#ifdef CONFIG_ISR_WORLD
 extern void TIMER0_Handler(void);
+#endif
 
 /* Exception handlers. */
 static void HardFault_Handler(void) __attribute__((naked));
@@ -74,7 +77,11 @@ const uint32_t *isr_vector[] __attribute__((section(".isr_vector"), used)) = {
     0,
     0,
     0,
+#ifdef CONFIG_ISR_WORLD
     (uint32_t *)&TIMER0_Handler, // Timer 0
+#else
+    0, // Timer 1
+#endif
     0, // Timer 1
     0,
     0,
@@ -93,6 +100,7 @@ static void platform_init(void)
 {
     trace_init();
     prvUARTInit();
+    vLogInit();
 }
 
 static void system_task_init(void)
