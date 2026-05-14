@@ -80,7 +80,7 @@ const uint32_t *isr_vector[] __attribute__((section(".isr_vector"), used)) = {
 #ifdef CONFIG_ISR_WORLD
     (uint32_t *)&TIMER0_Handler, // Timer 0
 #else
-    0, // Timer 1
+    0, // Timer 0
 #endif
     0, // Timer 1
     0,
