@@ -2,13 +2,13 @@
 #include "genius_log.h"
 #include <stdio.h>
 
-struct student {
+struct student { // TCB
     struct external_list list;
     int id;
     int score;
 };
 
-static struct class {
+static struct class { // xLIST
     char *name;
     int num_of_student;
     struct external_mini_list head;

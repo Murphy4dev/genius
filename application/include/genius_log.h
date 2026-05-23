@@ -17,7 +17,7 @@ void vLogInit(void);
             xSemaphoreTake(xLogMutex, portMAX_DELAY);                          \
         }                                                                      \
         TickType_t _t = xTaskGetTickCount();                                   \
-        printf("[%u:%02u:%02u:%03u] %s:%d " format "\n",                       \
+        printf("[%u:%02u:%02u:%03u][%s:%d]: " format "\n",                     \
                (unsigned)(_t / 3600000UL), (unsigned)((_t / 60000UL) % 60),    \
                (unsigned)((_t / 1000UL) % 60), (unsigned)(_t % 1000UL),        \
                __func__, __LINE__, ##__VA_ARGS__);                             \

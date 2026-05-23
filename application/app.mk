@@ -64,6 +64,11 @@ VPATH += $(APP_DIR)/external_list_world
 SOURCE_FILES += $(APP_DIR)/external_list_world/main.c
 endif
 
+ifeq ($(CONFIG_FREERTOS_LIST_WORLD),yes)
+VPATH += $(APP_DIR)/freeRTOS_list_world
+SOURCE_FILES += $(APP_DIR)/freeRTOS_list_world/main.c
+endif
+
 ifeq ($(CONFIG_TASK_STATISTICS),yes)
 CFLAGS += -DCONFIG_TASK_STATISTICS
 VPATH += $(APP_DIR)/task_statistics
